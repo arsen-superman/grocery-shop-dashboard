@@ -9,8 +9,4 @@
     <ProjectReference Include="..\GroceryShop.Dashboard.Infrastructure\GroceryShop.Dashboard.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

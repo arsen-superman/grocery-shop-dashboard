@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using GroceryShop.Dashboard.Domain.DTOs;
+using System.Threading.Tasks;
 
 namespace GroceryShop.Dashboard.Domain.Interfaces
 {
-    internal interface ITenantService
+    public interface ITenantService
     {
-        int GetCurrentTenantId();
-        Task<bool> ValidateTenant(int tenantId);
+        Task<ShopInfoDto> GetShopInfo(int tenantId);
     }
 }

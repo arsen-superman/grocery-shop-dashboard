@@ -6,9 +6,10 @@ namespace GroceryShop.Dashboard.Domain.Entities
     public class Shop
     {
         public int TenantId { get; set; }
-        public string ShopName { get; set; } = string.Empty;
+        public string ShopName { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime ModifiedAt { get; set; }
 
         public ICollection<DailyRevenueSummary> DailyRecords { get; set; } = new List<DailyRevenueSummary>();
     }
