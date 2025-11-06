@@ -1,4 +1,8 @@
+﻿using GroceryShop.Dashboard.Application.Services;
+using GroceryShop.Dashboard.Domain.Interfaces;
+using GroceryShop.Dashboard.Infrastructure.Configuration;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -30,12 +34,55 @@ namespace GroceryShop.Dashboard.API
 
                 builder.Host.UseSerilog();
 
-                // Add services to the container
+                // Configure Database
+                builder.Services.ConfigureDatabase(builder.Configuration);
+
+                // Register application services
+                builder.Services.AddScoped<ITenantService, TenantService>();
+                builder.Services.AddScoped<IShopDataService, ShopDataService>();
+
+                // Configure CORS для Angular
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowAngular", policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200")  // Angular dev server
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+                });
+
+                // Add controllers and API documentation
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen();
+                builder.Services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new()
+                    {
+                        Title = "ShopDashboard API",
+                        Version = "v1",
+                        Description = "API for grocery shop financial dashboard"
+                    });
+                });
 
                 var app = builder.Build();
+
+                // Apply migrations and seed data at startup
+                using (var scope = app.Services.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<Infrastructure.Data.ShopDbContext>();
+
+                    Log.Information("Applying database migrations");
+                    context.Database.Migrate();
+
+                    // TODO: Add data seeding here later
+                    // if (!context.Shops.Any())
+                    // {
+                    //     DataSeeder.Seed(context);
+                    // }
+
+                    Log.Information("Database ready");
+                }
 
                 app.UseSerilogRequestLogging(options =>
                 {
@@ -52,6 +99,9 @@ namespace GroceryShop.Dashboard.API
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
+
+                // Enable CORS
+                app.UseCors("AllowAngular");
 
                 app.UseHttpsRedirection();
                 app.UseAuthorization();
