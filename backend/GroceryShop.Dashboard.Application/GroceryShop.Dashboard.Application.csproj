@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroceryShop.Dashboard.Domain\GroceryShop.Dashboard.Domain.csproj" />
+    <ProjectReference Include="..\GroceryShop.Dashboard.Infrastructure\GroceryShop.Dashboard.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

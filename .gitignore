@@ -27,6 +27,14 @@ bld/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+*GroceryShop.Dashboard.API.http
+
+# User-specific files
+*.csproj.user
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
@@ -52,3 +60,9 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
