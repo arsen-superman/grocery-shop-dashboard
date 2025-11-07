@@ -70,10 +70,6 @@ namespace GroceryShop.Dashboard.API.Controllers
                     data
                 );
 
-                _logger.LogInformation(
-                    "Successfully retrieved {Count} records for tenant {TenantId} ({ShopName})",
-                    data.Count(), tenantId, shopInfo.ShopName);
-
                 return Ok(response);
             }
             catch (Exception ex)

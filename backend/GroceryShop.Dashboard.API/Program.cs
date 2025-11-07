@@ -1,12 +1,14 @@
-﻿using GroceryShop.Dashboard.Application.Services;
-using GroceryShop.Dashboard.Domain.Interfaces;
-using GroceryShop.Dashboard.Infrastructure.Configuration;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
-using System;
+using GroceryShop.Dashboard.Application.Services;
+using GroceryShop.Dashboard.Domain.Interfaces;
+using GroceryShop.Dashboard.Infrastructure.Configuration;
+using GroceryShop.Dashboard.Infrastructure.Data;
 
 namespace GroceryShop.Dashboard.API
 {
@@ -70,16 +72,14 @@ namespace GroceryShop.Dashboard.API
                 // Apply migrations and seed data at startup
                 using (var scope = app.Services.CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetRequiredService<Infrastructure.Data.ShopDbContext>();
+                    var context = scope.ServiceProvider.GetRequiredService<ShopDbContext>();
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
                     Log.Information("Applying database migrations");
-                    context.Database.Migrate();
+                    context.Database.MigrateAsync();
 
-                    // TODO: Add data seeding here later
-                    // if (!context.Shops.Any())
-                    // {
-                    //     DataSeeder.Seed(context);
-                    // }
+                    // Seed data
+                    DataSeeder.SeedAsync(context, logger).GetAwaiter().GetResult();
 
                     Log.Information("Database ready");
                 }
