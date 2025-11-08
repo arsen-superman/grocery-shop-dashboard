@@ -1,0 +1,123 @@
+.dashboard {
+  background: #fff;
+  color: #011323;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px 0 rgba(110, 61, 247, 0.07), 0 1.5px 4px 0 rgba(110, 61, 247, 0.04);
+}
+
+.dashboard-loading,
+.dashboard-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.dashboard-loading {
+  color: #6e3df7;
+}
+.dashboard-error {
+  color: #e53935;
+}
+
+.dashboard-filters {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1.5px 8px 0 #f5f7fe;
+  padding: 1.2rem 1rem 0.7rem 1rem;
+}
+.filter-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #011323;
+  min-width: 120px;
+}
+.filter-input {
+  padding: 0.4rem 0.6rem;
+  border: 1.5px solid #ccbef5;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: #011323;
+  margin-top: 0.3rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.filter-input:focus {
+  outline: none;
+  border-color: #6e3df7;
+  box-shadow: 0 0 0 2px #ccbef5;
+}
+.filter-btn {
+  background: #011323;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.3rem;
+}
+.filter-btn:hover:not([disabled]) {
+  background: #6e3df7;
+}
+.dashboard-meta {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  color: #011323;
+}
+.shop-name {
+  color: #6e3df7;
+  font-weight: 700;
+}
+.record-count {
+  color: #011323;
+  font-weight: 700;
+}
+.spinner {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid #ccbef5;
+  border-top: 2px solid #6e3df7;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 700px) {
+  .dashboard {
+    padding: 1rem;
+    max-width: 100vw;
+  }
+  .dashboard-filters {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+  .filter-label {
+    min-width: 0;
+  }
+  .dashboard-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

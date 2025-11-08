@@ -1,6 +1,6 @@
-export interface RevenueData {
+export interface DailyRevenueSummary {
   date: string;
-  totalRevenue: number;
-  transactionCount: number;
-  averageTransactionValue: number;
+  income: number;
+  outcome: number;
+  revenue: number;
 }
