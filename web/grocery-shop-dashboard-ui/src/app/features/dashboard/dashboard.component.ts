@@ -18,7 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class DashboardComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   
-  shopId: number = 1;
+  shopId: number = 0;
   fromDate: string = '2025-10-01';
   toDate: string = '2025-10-31';
 
@@ -61,6 +61,10 @@ export class DashboardComponent implements OnInit {
           this.loadingShops.set(false);
         }
       });
+  }
+
+  onShopChange(shopId: number): void {
+    // this.saveSelectedShop(this.shopId);
   }
 
   loadData(): void {

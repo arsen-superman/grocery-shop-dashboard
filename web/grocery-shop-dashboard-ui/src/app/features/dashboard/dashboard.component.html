@@ -20,6 +20,7 @@
         [(ngModel)]="shopId"
         name="shopId"
         required
+        (ngModelChange)="onShopChange($event)"
       >
         @for (shop of shops(); track shop.shopId) {
           <option [value]="shop.shopId">{{ shop.name }}</option>

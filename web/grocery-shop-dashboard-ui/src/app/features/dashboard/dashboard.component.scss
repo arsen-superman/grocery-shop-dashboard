@@ -54,7 +54,11 @@
     transition: all 0.2s;
     font-family: inherit;
     line-height: 1.2;
-    height: 25px;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 0 1rem;
+    line-height: normal;
+    color: #011323;
   
     &[type="date"] {
         padding: 0.625rem 1rem;
