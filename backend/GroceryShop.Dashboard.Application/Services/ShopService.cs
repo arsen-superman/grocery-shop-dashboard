@@ -24,7 +24,7 @@ namespace GroceryShop.Dashboard.Application.Services
         {
             var shop = await _context.Shops
                 .Where(s => s.ShopId == shopId && s.IsActive)
-                .Select(s => new ShopInfoDto(s.ShopId, s.ShopName))
+                .Select(s => new ShopInfoDto(s.ShopId, s.Name))
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
@@ -39,7 +39,7 @@ namespace GroceryShop.Dashboard.Application.Services
         public async Task<List<ShopInfoDto>> GetAll()
         {
             var shops = await _context.Shops
-                .Select(s => new ShopInfoDto(s.ShopId, s.ShopName))
+                .Select(s => new ShopInfoDto(s.ShopId, s.Name))
                 .AsNoTracking()
                 .ToListAsync();
             if (shops.Count == 0)

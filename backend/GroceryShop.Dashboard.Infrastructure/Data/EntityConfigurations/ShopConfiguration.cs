@@ -13,7 +13,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data.EntityConfigurations
             builder.Property(s => s.ShopId)
                 .ValueGeneratedNever();
 
-            builder.Property(s => s.ShopName)
+            builder.Property(s => s.Name)
                 .IsRequired()
                 .HasMaxLength(200);
 

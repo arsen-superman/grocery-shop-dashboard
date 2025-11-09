@@ -23,14 +23,14 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
             {
                 new() {
                     ShopId = 1,
-                    ShopName = "Shop 1",
+                    Name = "Shop 1",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
                     ModifiedAt = DateTime.UtcNow
                 },
                 new() {
                     ShopId = 2,
-                    ShopName = "Shop 2",
+                    Name = "Shop 2",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
                     ModifiedAt = DateTime.UtcNow

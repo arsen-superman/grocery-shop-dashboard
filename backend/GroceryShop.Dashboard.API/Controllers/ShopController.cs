@@ -88,7 +88,7 @@ namespace GroceryShop.Dashboard.API.Controllers
 
                 var response = new RevenueDataResponse(
                     shopInfo.ShopId,
-                    shopInfo.ShopName,
+                    shopInfo.Name,
                     data
                 );
 

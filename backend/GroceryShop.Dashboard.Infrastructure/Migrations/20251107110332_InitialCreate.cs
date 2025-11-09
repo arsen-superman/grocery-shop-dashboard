@@ -16,7 +16,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                 columns: table => new
                 {
                     ShopId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ShopName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now')"),
                     ModifiedAt = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now')")
