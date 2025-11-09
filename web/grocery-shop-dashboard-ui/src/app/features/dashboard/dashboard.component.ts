@@ -8,6 +8,12 @@ import { MatCardModule } from '@angular/material/card';
 import { RevenueChartComponent } from './components/revenue-chart/revenue-chart.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+const COOKIE_KEYS = {
+  SHOP_ID: 'grocery_dashboard_shop_id',
+  FROM_DATE: 'grocery_dashboard_from_date',
+  TO_DATE: 'grocery_dashboard_to_date'
+} as const;
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -19,15 +25,15 @@ export class DashboardComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   
   shopId: number = 0;
-  fromDate: string = '2025-10-01';
-  toDate: string = '2025-10-31';
+  fromDate: string = '2021-06-01';
+  toDate: string = '2021-12-31';
 
   // State
   shopName = signal('');
   revenueData = signal<DailyRevenueSummary[]>([]);
   loading = signal(false);
   error = signal('');
-  
+
   // shops list for filter selection
   shops = signal<ShopInfo[]>([]);
   loadingShops = signal(false);
@@ -38,9 +44,13 @@ export class DashboardComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    // read saved shop selection from cookies, default to All (0)
-    const saved = this.getSelectedShopFromCookies();
-    this.shopId = saved !== null ? saved : 0;
+    // read saved filters from cookies
+    const savedFilters = this.getFiltersFromCache();
+
+    // apply saved values or keep defaults
+    this.shopId = savedFilters.shopId ?? this.shopId;
+    this.fromDate = savedFilters.fromDate ?? this.fromDate;
+    this.toDate = savedFilters.toDate ?? this.toDate;
 
     this.loadShops();
   }
@@ -64,11 +74,6 @@ export class DashboardComponent implements OnInit {
           this.loadingShops.set(false);
         }
       });
-  }
-
-  onShopChange(shopId: number): void {
-    // save selection to cookie whenever user changes shop via dropdown
-    this.saveSelectedShop(shopId);
   }
 
   loadData(): void {
@@ -101,34 +106,61 @@ export class DashboardComponent implements OnInit {
       return;
     }
     
+    // save filters before loading new data
+    this.saveFiltersToCache();
     this.loadData();
   }
 
-  private saveSelectedShop(shopId: number): void {
+  /** Save all filter values to cookies */
+  private saveFiltersToCache(): void {
     try {
       const days = 30;
       const expires = new Date();
       expires.setDate(expires.getDate() + days);
-      const cookieValue = encodeURIComponent(String(shopId));
-      document.cookie = `selectedShopId=${cookieValue}; expires=${expires.toUTCString()}; path=/`;
+      
+      // helper to set a cookie with consistent options
+      const setCookie = (key: string, value: string) => {
+        document.cookie = `${key}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/`;
+      };
+
+      // save all filter values
+      setCookie(COOKIE_KEYS.SHOP_ID, String(this.shopId));
+      setCookie(COOKIE_KEYS.FROM_DATE, this.fromDate);
+      setCookie(COOKIE_KEYS.TO_DATE, this.toDate);
     } catch (e) {
-        // fail silently
+      // swallow errors - cookies may be disabled
     }
   }
 
-  private getSelectedShopFromCookies(): number | null {
+  /** Read all filter values from cookies */
+  private getFiltersFromCache(): { shopId: number | null; fromDate: string | null; toDate: string | null } {
     try {
       const cookie = document.cookie || '';
-      if (!cookie) return null;
-      const parts = cookie.split(';').map(p => p.trim());
-      const kv = parts.find(p => p.startsWith('selectedShopId='));
-      if (!kv) return null;
-      const val = kv.split('=')[1] ?? '';
-      const parsed = parseInt(decodeURIComponent(val), 10);
-      if (isNaN(parsed)) return null;
-      return parsed;
+      if (!cookie) {
+        return { shopId: null, fromDate: null, toDate: null };
+      }
+
+      // helper to get a cookie value by key
+      const getCookieValue = (key: string): string | null => {
+        const parts = cookie.split(';').map(p => p.trim());
+        const kv = parts.find(p => p.startsWith(`${key}=`));
+        if (!kv) return null;
+        const val = kv.split('=')[1] ?? '';
+        return decodeURIComponent(val);
+      };
+
+      // read and parse each value
+      const shopIdStr = getCookieValue(COOKIE_KEYS.SHOP_ID);
+      const fromDate = getCookieValue(COOKIE_KEYS.FROM_DATE);
+      const toDate = getCookieValue(COOKIE_KEYS.TO_DATE);
+
+      return {
+        shopId: shopIdStr ? parseInt(shopIdStr, 10) : null,
+        fromDate: fromDate || null,
+        toDate: toDate || null
+      };
     } catch (e) {
-      return null;
+      return { shopId: null, fromDate: null, toDate: null };
     }
   }
 

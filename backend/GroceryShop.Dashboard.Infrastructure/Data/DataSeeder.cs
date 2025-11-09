@@ -19,21 +19,30 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
 
             logger.LogInformation("Starting database seeding...");
 
+            var now = DateTime.UtcNow;
+
             var shops = new List<Shop>
             {
                 new() {
                     ShopId = 1,
                     Name = "Shop 1",
                     IsActive = true,
-                    CreatedAt = DateTime.UtcNow,
-                    ModifiedAt = DateTime.UtcNow
+                    CreatedAt = now,
+                    ModifiedAt = now
                 },
                 new() {
                     ShopId = 2,
                     Name = "Shop 2",
                     IsActive = true,
-                    CreatedAt = DateTime.UtcNow,
-                    ModifiedAt = DateTime.UtcNow
+                    CreatedAt = now,
+                    ModifiedAt = now
+                },
+                new() {
+                    ShopId = 3,
+                    Name = "Shop 3",
+                    IsActive = true,
+                    CreatedAt = now,
+                    ModifiedAt = now
                 }
             };
 
@@ -45,7 +54,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
             var random = new Random(42); 
             var records = new List<DailyRevenueSummary>();
 
-            var startDate = new DateTime(2025, 10, 1);
+            var startDate = new DateTime(2021, 01, 1);
             var endDate = new DateTime(2025, 10, 31);
 
             foreach (var shop in shops)
