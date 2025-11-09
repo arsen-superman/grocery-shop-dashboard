@@ -37,31 +37,30 @@ export class DashboardComponent implements OnInit {
   }
 
   loadData(): void {
-    this.loading.set(true);
-    this.error.set('');
-    debugger
-    this.apiService
-      .getShopData(this.tenantId, this.fromDate, this.toDate)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (res) => {
-          this.shopName.set(res.shopName);
-          this.revenueData.set(res.data);
-          this.loading.set(false);
-          
-          // Emit to parent
-          this.dataLoaded.emit({ 
-            shopName: res.shopName, 
-            fromDate: this.fromDate, 
-            toDate: this.toDate 
-          });
-        },
-        error: (err) => {
-          this.error.set(err?.message || 'Failed to load data.');
-          this.loading.set(false);
-        }
-      });
-  }
+  this.loading.set(true);
+  this.error.set('');
+  
+  this.apiService
+    .getShopData(this.tenantId, this.fromDate, this.toDate)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (res) => {
+        this.shopName.set(res.shopName);
+        this.revenueData.set(res.data);
+        this.loading.set(false);
+        
+        this.dataLoaded.emit({ 
+          shopName: res.shopName, 
+          fromDate: this.fromDate, 
+          toDate: this.toDate 
+        });
+      },
+      error: (err) => {
+        this.error.set(err?.message || 'Failed to load data.');
+        this.loading.set(false);
+      }
+    });
+}
 
   onFilterApply(): void {
     if (this.fromDate > this.toDate) {

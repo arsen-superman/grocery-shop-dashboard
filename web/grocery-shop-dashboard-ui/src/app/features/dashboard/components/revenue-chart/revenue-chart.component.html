@@ -1,19 +1,16 @@
 <div class="revenue-chart">
-  @if (loading()) {
-    <div class="chart-loading">
-      <span class="spinner"></span> Loading chart...
-    </div>
-  }
-  
-  @if (loadError()) {
-    <div class="chart-error">{{ loadError() }}</div>
-  }
-  
-  @if (!loading() && !loadError() && (!data() || data().length === 0)) {
+  @if (!data() || data().length === 0) {
     <div class="chart-empty">No data to display for the selected range.</div>
-  }
-  
-  @if (!loading() && !loadError() && data() && data().length) {
-    <div #chartContainer class="chart-container"></div>
+  } @else {
+    <google-chart
+      [type]="chartType"
+      [data]="chartData()"
+      [columns]="chartColumns"
+      [options]="chartOptions()"
+      [width]="chartWidth"
+      [height]="chartHeight()"
+      (ready)="onChartReady()"
+      (error)="onChartError($event)"
+    ></google-chart>
   }
 </div>

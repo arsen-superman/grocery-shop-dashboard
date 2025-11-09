@@ -17,7 +17,6 @@ export class App {
 
   /** Handler for dashboard's dataLoaded event */
   onDataLoaded(event: { shopName?: string; fromDate?: string; toDate?: string }): void {
-    debugger;
     this.shopName.set(event?.shopName ?? '');
     this.fromDate.set(event?.fromDate ?? null);
     this.toDate.set(event?.toDate ?? null);
