@@ -4,8 +4,9 @@ using GroceryShop.Dashboard.Domain.DTOs;
 namespace GroceryShop.Dashboard.API.Models
 {
     public record RevenueDataResponse(
-        int TenantId,
+        int ShopId,
         string ShopName,
         IEnumerable<DailyRevenueSummaryDto> Data
     );
 }
+ 

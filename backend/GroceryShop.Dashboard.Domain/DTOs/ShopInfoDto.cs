@@ -1,4 +1,4 @@
 ﻿namespace GroceryShop.Dashboard.Domain.DTOs
 {
-    public record ShopInfoDto(int TenantId, string ShopName);
+    public record ShopInfoDto(int ShopId, string ShopName);
 }

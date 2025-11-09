@@ -8,9 +8,9 @@ namespace GroceryShop.Dashboard.Infrastructure.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Shop> builder)
         {
-            builder.HasKey(s => s.TenantId);
+            builder.HasKey(s => s.ShopId);
 
-            builder.Property(s => s.TenantId)
+            builder.Property(s => s.ShopId)
                 .ValueGeneratedNever();
 
             builder.Property(s => s.ShopName)
@@ -33,7 +33,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data.EntityConfigurations
 
             builder.HasMany(s => s.DailyRecords)
                 .WithOne(r => r.Shop)
-                .HasForeignKey(r => r.TenantId)
+                .HasForeignKey(r => r.ShopId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

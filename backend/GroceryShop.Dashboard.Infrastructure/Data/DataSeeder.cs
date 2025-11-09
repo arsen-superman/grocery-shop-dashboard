@@ -21,17 +21,15 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
 
             var shops = new List<Shop>
             {
-                new Shop
-                {
-                    TenantId = 1,
+                new() {
+                    ShopId = 1,
                     ShopName = "Shop 1",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
                     ModifiedAt = DateTime.UtcNow
                 },
-                new Shop
-                {
-                    TenantId = 2,
+                new() {
+                    ShopId = 2,
                     ShopName = "Shop 2",
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow,
@@ -59,7 +57,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
 
                     records.Add(new DailyRevenueSummary
                     {
-                        TenantId = shop.TenantId,
+                        ShopId = shop.ShopId,
                         Date = date,
                         DailyIncome = income,
                         DailyOutcome = outcome

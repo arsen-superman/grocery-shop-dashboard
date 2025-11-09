@@ -15,7 +15,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                 name: "Shops",
                 columns: table => new
                 {
-                    TenantId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ShopId = table.Column<int>(type: "INTEGER", nullable: false),
                     ShopName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "datetime('now')"),
@@ -23,7 +23,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Shops", x => x.TenantId);
+                    table.PrimaryKey("PK_Shops", x => x.ShopId);
                 });
 
             migrationBuilder.CreateTable(
@@ -32,7 +32,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    TenantId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ShopId = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     DailyIncome = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DailyOutcome = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -41,17 +41,17 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_DailyRevenueSummaries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DailyRevenueSummaries_Shops_TenantId",
-                        column: x => x.TenantId,
+                        name: "FK_DailyRevenueSummaries_Shops_ShopId",
+                        column: x => x.ShopId,
                         principalTable: "Shops",
-                        principalColumn: "TenantId",
+                        principalColumn: "ShopId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DailyRevenueSummaries_TenantId_Date",
+                name: "IX_DailyRevenueSummaries_ShopId_Date",
                 table: "DailyRevenueSummaries",
-                columns: new[] { "TenantId", "Date" },
+                columns: new[] { "ShopId", "Date" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

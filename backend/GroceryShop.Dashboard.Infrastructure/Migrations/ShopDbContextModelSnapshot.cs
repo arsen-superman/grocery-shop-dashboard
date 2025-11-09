@@ -32,12 +32,12 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("TenantId")
+                    b.Property<int>("ShopId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TenantId", "Date")
+                    b.HasIndex("ShopId", "Date")
                         .IsUnique();
 
                     b.ToTable("DailyRevenueSummaries");
@@ -45,7 +45,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
 
             modelBuilder.Entity("GroceryShop.Dashboard.Domain.Entities.Shop", b =>
                 {
-                    b.Property<int>("TenantId")
+                    b.Property<int>("ShopId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
@@ -68,7 +68,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("TenantId");
+                    b.HasKey("ShopId");
 
                     b.HasIndex("IsActive");
 
@@ -79,7 +79,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Migrations
                 {
                     b.HasOne("GroceryShop.Dashboard.Domain.Entities.Shop", "Shop")
                         .WithMany("DailyRecords")
-                        .HasForeignKey("TenantId")
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

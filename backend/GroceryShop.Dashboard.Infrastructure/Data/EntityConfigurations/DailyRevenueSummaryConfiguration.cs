@@ -10,7 +10,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data.EntityConfigurations
         {
             builder.HasKey(r => r.Id);
 
-            builder.Property(r => r.TenantId)
+            builder.Property(r => r.ShopId)
                 .IsRequired();
 
             builder.Property(r => r.Date)
@@ -27,9 +27,9 @@ namespace GroceryShop.Dashboard.Infrastructure.Data.EntityConfigurations
 
             builder.Ignore(r => r.Revenue);
 
-            builder.HasIndex(r => new { r.TenantId, r.Date });
+            builder.HasIndex(r => new { r.ShopId, r.Date });
 
-            builder.HasIndex(r => new { r.TenantId, r.Date })
+            builder.HasIndex(r => new { r.ShopId, r.Date })
                 .IsUnique();
         }
     }

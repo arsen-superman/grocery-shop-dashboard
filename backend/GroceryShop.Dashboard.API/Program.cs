@@ -40,7 +40,7 @@ namespace GroceryShop.Dashboard.API
                 builder.Services.ConfigureDatabase(builder.Configuration);
 
                 // Register application services
-                builder.Services.AddScoped<ITenantService, TenantService>();
+                builder.Services.AddScoped<IShopService, ShopService>();
                 builder.Services.AddScoped<IShopDataService, ShopDataService>();
 
                 // Configure CORS для Angular
