@@ -8,10 +8,12 @@ import { RevenueDataResponse } from '../models/revenue-data-response.interface';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   // prefer apiUrl, fallback to apiBaseUrl for backwards compatibility
-  private readonly baseUrl: string = (environment as any).apiUrl || (environment as any).apiBaseUrl || '';
+  private readonly baseUrl: string = 
+    environment.apiUrl || 
+    environment.apiBaseUrl || '';
 
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-  public readonly loading$ = this.loadingSubject.asObservable();
+//   private loadingSubject = new BehaviorSubject<boolean>(false);
+//   public readonly loading$ = this.loadingSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -21,21 +23,20 @@ export class ApiService {
    */
   getShopData(tenantId: number, fromDate: string, toDate: string): Observable<RevenueDataResponse> {
     const params = new HttpParams()
-      .set('tenantId', String(tenantId))
+      .set('tenantId', tenantId.toString())
       .set('fromDate', fromDate)
       .set('toDate', toDate);
 
     const url = `${this.baseUrl.replace(/\/$/, '')}/shop-data`;
 
-    this.loadingSubject.next(true);
+    // this.loadingSubject.next(true);
 
-    return this.http.get<RevenueDataResponse>(url, { params }).pipe(
-      catchError((err: HttpErrorResponse) => this.handleError(err)),
-      finalize(() => this.loadingSubject.next(false))
-    );
+    return this.http
+      .get<RevenueDataResponse>(url, { params })
+      .pipe(catchError(this.handleError));
   }
 
-  private handleError(err: HttpErrorResponse) {
+  private handleError(err: HttpErrorResponse): Observable<never> {
     let message = 'An unknown error occurred while fetching shop data.';
     if (err.error instanceof ErrorEvent) {
       // client-side/network error

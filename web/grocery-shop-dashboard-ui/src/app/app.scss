@@ -1,0 +1,22 @@
+:root {
+  --app-max-width: 1200px;
+}
+
+.app-main {
+  min-height: calc(100vh - 120px); /* leave room for header + footer */
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  display: block;
+  background: #f8fafc;
+}
+
+.app-main .container {
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+}
+
+/* small helper to space content from sticky header */
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}

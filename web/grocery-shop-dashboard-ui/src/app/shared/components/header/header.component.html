@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="title">
+        <div class="shop-name">{{ shopName() || 'Grocery Shop' }}</div>
+      </div>
+    </div>
+    @if (displayRange()) {
+      <div class="range">{{ displayRange() }}</div>
+    }
+  </div>
+</header>

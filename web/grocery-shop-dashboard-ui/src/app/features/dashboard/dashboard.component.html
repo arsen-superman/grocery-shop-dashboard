@@ -1,27 +1,77 @@
 <div class="dashboard">
-  <div *ngIf="loading" class="dashboard-loading">
-    <span class="spinner"></span> Loading...
-  </div>
-  <div *ngIf="error" class="dashboard-error">
-    {{ error }}
-  </div>
+  <!-- Loading state -->
+  @if (loading()) {
+    <div class="dashboard-loading">
+      <span class="spinner"></span> Loading...
+    </div>
+  }
+  
+  <!-- Error state -->
+  @if (error()) {
+    <div class="dashboard-error">{{ error() }}</div>
+  }
+  
+  <!-- Filters -->
   <form class="dashboard-filters" (ngSubmit)="onFilterApply()" autocomplete="off">
     <label class="filter-label">
       Tenant ID:
-      <input class="filter-input" type="number" [(ngModel)]="tenantId" name="tenantId" min="1" required />
+      <input 
+        class="filter-input" 
+        type="number" 
+        [(ngModel)]="tenantId" 
+        name="tenantId" 
+        min="1" 
+        required 
+      />
     </label>
+    
     <label class="filter-label">
       From:
-      <input class="filter-input" type="date" [(ngModel)]="fromDate" name="fromDate" required />
+      <input 
+        class="filter-input" 
+        type="date" 
+        [(ngModel)]="fromDate" 
+        name="fromDate" 
+        required 
+      />
     </label>
+    
     <label class="filter-label">
       To:
-      <input class="filter-input" type="date" [(ngModel)]="toDate" name="toDate" required />
+      <input 
+        class="filter-input" 
+        type="date" 
+        [(ngModel)]="toDate" 
+        name="toDate" 
+        required 
+      />
     </label>
-    <button class="filter-btn" type="submit" [disabled]="loading">Filter</button>
+    
+    <button 
+      class="filter-btn" 
+      type="submit" 
+      [disabled]="loading()"
+    >
+      Filter
+    </button>
   </form>
+  
+  <!-- Metadata -->
   <div class="dashboard-meta">
-    <div class="dashboard-shop">Shop: <span class="shop-name">{{ shopName || '—' }}</span></div>
-    <div class="dashboard-count">Records: <span class="record-count">{{ revenueData.length }}</span></div>
+    <div class="dashboard-shop">
+      Shop: <span class="shop-name">{{ shopName() || '—' }}</span>
+    </div>
+    <div class="dashboard-count">
+      Records: <span class="record-count">{{ revenueData().length }}</span>
+    </div>
   </div>
+  
+  <!-- Chart -->
+  <app-revenue-chart
+    [data]="revenueData()"
+    [shopName]="shopName()"
+    [height]="380"
+    (chartReady)="onChartReady()"
+  >
+  </app-revenue-chart>
 </div>

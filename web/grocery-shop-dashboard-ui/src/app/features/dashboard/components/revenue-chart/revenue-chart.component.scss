@@ -1,0 +1,49 @@
+.revenue-chart {
+  width: 100%;
+}
+
+.chart-loading,
+.chart-error,
+.chart-empty {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.chart-loading {
+  color: #6e3df7;
+}
+
+.chart-error {
+  color: #e53935;
+}
+
+.chart-empty {
+  color: #011323;
+}
+
+.chart-container {
+  width: 100%;
+  min-height: 200px;
+  background: #ffffff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border: 2px solid #ccbef5;
+  border-top: 2px solid #6e3df7;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

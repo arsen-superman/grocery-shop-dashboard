@@ -1,12 +1,25 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [HeaderComponent, DashboardComponent, FooterComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
 export class App {
-  protected readonly title = signal('grocery-shop-dashboard-ui');
+  // Header-bound values
+  shopName = signal('');
+  fromDate = signal<string | null>(null);
+  toDate = signal<string | null>(null);
+
+  /** Handler for dashboard's dataLoaded event */
+  onDataLoaded(event: { shopName?: string; fromDate?: string; toDate?: string }): void {
+    debugger;
+    this.shopName.set(event?.shopName ?? '');
+    this.fromDate.set(event?.fromDate ?? null);
+    this.toDate.set(event?.toDate ?? null);
+  }
 }

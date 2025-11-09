@@ -1,0 +1,26 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 1px 6px rgba(1, 19, 35, 0.04);
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  gap: 1rem;
+}
+.brand { display:flex; align-items:center; gap:0.75rem }
+.logo {
+  width:44px; height:44px; border-radius:8px;
+  background: linear-gradient(180deg,#6e3df7 0%, #5b2ff0 100%);
+  box-shadow: 0 2px 6px rgba(110,61,247,0.15);
+}
+.shop-name { font-weight:700; color:#011323; font-size:1.05rem }
+.range { color:#011323; font-weight:600 }
+@media (max-width:600px){ .header-inner{ padding:0.5rem } .range{ display:none } }
