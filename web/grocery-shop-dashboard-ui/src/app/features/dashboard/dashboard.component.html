@@ -23,7 +23,7 @@
         (ngModelChange)="onShopChange($event)"
       >
         @for (shop of shops(); track shop.shopId) {
-          <option [value]="shop.shopId">{{ shop.name }}</option>
+          <option [ngValue]="shop.shopId">{{ shop.name }}</option>
         }
       </select>
       @if (loadingShops()) {

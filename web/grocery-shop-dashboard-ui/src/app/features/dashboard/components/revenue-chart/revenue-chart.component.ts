@@ -30,11 +30,7 @@ export class RevenueChartComponent implements AfterViewInit, OnDestroy {
   chartData = computed(() => {
     const rawData = this.data();
     
-    console.log('=== CHART DATA COMPUTATION ===');
-    console.log('Raw data length:', rawData?.length);
-    
     if (!rawData || rawData.length === 0) {
-      console.log('No data');
       return [];
     }
 
@@ -47,9 +43,6 @@ export class RevenueChartComponent implements AfterViewInit, OnDestroy {
       
       return [dateObj, d.income, d.outcome, d.revenue];
     });
-    
-    console.log('Total rows:', rows.length);
-    console.log('=== END CHART DATA ===');
     
     return rows;
   });
@@ -94,11 +87,23 @@ export class RevenueChartComponent implements AfterViewInit, OnDestroy {
   chartWidth = computed(() => this.containerWidth());
   chartHeight = computed(() => this.height());
 
+  ngAfterViewInit(): void {
+    this.updateContainerWidth();
+
+    this.resizeSubscription = fromEvent(window, 'resize')
+      .pipe(debounceTime(200))
+      .subscribe(() => {
+        this.updateContainerWidth();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.resizeSubscription?.unsubscribe();
+  }
+
   private updateContainerWidth(): void {
     if (this.chartContainer) {
       const width = this.chartContainer.nativeElement.offsetWidth;
-      console.log('Container width:', width);
-      
       const chartWidth = width - 64;
       
       this.containerWidth.set(chartWidth);
@@ -106,26 +111,10 @@ export class RevenueChartComponent implements AfterViewInit, OnDestroy {
   }
 
   onChartReady(): void {
-    console.log('Chart rendered successfully!');
     this.chartReady.emit();
   }
 
   onChartError(error: any): void {
     console.error('Chart error:', error);
-  }
-
-  ngAfterViewInit(): void {
-    this.updateContainerWidth();
-
-    this.resizeSubscription = fromEvent(window, 'resize')
-      .pipe(debounceTime(200))
-      .subscribe(() => {
-        console.log('Window resized, updating chart width');
-        this.updateContainerWidth();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.resizeSubscription?.unsubscribe();
   }
 }

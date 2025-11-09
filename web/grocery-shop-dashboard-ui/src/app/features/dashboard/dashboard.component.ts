@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, signal, output, inject, DestroyRef } from '@angular/core';
+import { Component, OnInit, signal, output, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
   revenueData = signal<DailyRevenueSummary[]>([]);
   loading = signal(false);
   error = signal('');
+  
   // shops list for filter selection
   shops = signal<ShopInfo[]>([]);
   loadingShops = signal(false);
@@ -37,9 +38,11 @@ export class DashboardComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    // load shops first (for the tenant selector), then initial revenue
+    // read saved shop selection from cookies, default to All (0)
+    const saved = this.getSelectedShopFromCookies();
+    this.shopId = saved !== null ? saved : 0;
+
     this.loadShops();
-    this.loadData();
   }
 
   loadShops(): void {
@@ -51,10 +54,10 @@ export class DashboardComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          // prepend an 'All' option
           const allShops: ShopInfo[] = [{ shopId: 0, name: 'All' }, ...res];
           this.shops.set(allShops);
           this.loadingShops.set(false);
+          this.loadData();
         },
         error: (err: any) => {
           this.error.set(err?.message || 'Failed to load shops');
@@ -64,7 +67,8 @@ export class DashboardComponent implements OnInit {
   }
 
   onShopChange(shopId: number): void {
-    // this.saveSelectedShop(this.shopId);
+    // save selection to cookie whenever user changes shop via dropdown
+    this.saveSelectedShop(shopId);
   }
 
   loadData(): void {
@@ -100,7 +104,35 @@ export class DashboardComponent implements OnInit {
     this.loadData();
   }
 
+  private saveSelectedShop(shopId: number): void {
+    try {
+      const days = 30;
+      const expires = new Date();
+      expires.setDate(expires.getDate() + days);
+      const cookieValue = encodeURIComponent(String(shopId));
+      document.cookie = `selectedShopId=${cookieValue}; expires=${expires.toUTCString()}; path=/`;
+    } catch (e) {
+        // fail silently
+    }
+  }
+
+  private getSelectedShopFromCookies(): number | null {
+    try {
+      const cookie = document.cookie || '';
+      if (!cookie) return null;
+      const parts = cookie.split(';').map(p => p.trim());
+      const kv = parts.find(p => p.startsWith('selectedShopId='));
+      if (!kv) return null;
+      const val = kv.split('=')[1] ?? '';
+      const parsed = parseInt(decodeURIComponent(val), 10);
+      if (isNaN(parsed)) return null;
+      return parsed;
+    } catch (e) {
+      return null;
+    }
+  }
+
   onChartReady(): void {
-    console.log('Chart ready!');
+    // Chart is ready}
   }
 }
