@@ -5,7 +5,6 @@ namespace GroceryShop.Dashboard.API.Models
 {
     public record RevenueDataResponse(
         int ShopId,
-        string Name,
         IEnumerable<DailyRevenueSummaryDto> Data
     );
 }

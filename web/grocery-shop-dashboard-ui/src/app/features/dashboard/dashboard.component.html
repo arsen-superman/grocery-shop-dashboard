@@ -14,15 +14,20 @@
   <!-- Filters -->
   <form class="dashboard-filters" (ngSubmit)="onFilterApply()" autocomplete="off">
     <label class="filter-label">
-      Tenant ID:
-      <input 
-        class="filter-input" 
-        type="number" 
-        [(ngModel)]="tenantId" 
-        name="tenantId" 
-        min="1" 
-        required 
-      />
+      Select Shop:
+      <select
+        class="filter-input"
+        [(ngModel)]="shopId"
+        name="shopId"
+        required
+      >
+        @for (shop of shops(); track shop.shopId) {
+          <option [value]="shop.shopId">{{ shop.name }}</option>
+        }
+      </select>
+      @if (loadingShops()) {
+        <span class="spinner"></span>
+      }
     </label>
     
     <label class="filter-label">
@@ -59,7 +64,6 @@
   <!-- Chart -->
   <app-revenue-chart
     [data]="revenueData()"
-    [shopName]="shopName()"
     [height]="380"
     (chartReady)="onChartReady()"
   >

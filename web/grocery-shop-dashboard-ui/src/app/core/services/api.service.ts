@@ -4,32 +4,30 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { RevenueDataResponse } from '../models/revenue-data-response.interface';
+import { ShopInfo } from '../models/shop-info.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  // prefer apiUrl, fallback to apiBaseUrl for backwards compatibility
   private readonly baseUrl: string = 
     environment.apiUrl || 
     environment.apiBaseUrl || '';
 
-//   private loadingSubject = new BehaviorSubject<boolean>(false);
-//   public readonly loading$ = this.loadingSubject.asObservable();
-
   constructor(private http: HttpClient) {}
 
-  /**
-   * Fetches shop data for a tenant in the given date range.
-   * GET {baseUrl}/shop-data?tenantId={id}&fromDate={date}&toDate={date}
-   */
-  getShopData(tenantId: number, fromDate: string, toDate: string): Observable<RevenueDataResponse> {
+  getAllShops(): Observable<ShopInfo[]> {
+    const url = `${this.baseUrl.replace(/\/$/, '')}/shop`;
+
+    return this.http
+      .get<ShopInfo[]>(url)
+      .pipe(catchError(this.handleError));
+  }
+
+  getShopRevenue(shopId: number, fromDate: string, toDate: string): Observable<RevenueDataResponse> {
     const params = new HttpParams()
-      .set('tenantId', tenantId.toString())
       .set('fromDate', fromDate)
       .set('toDate', toDate);
 
-    const url = `${this.baseUrl.replace(/\/$/, '')}/shop-data`;
-
-    // this.loadingSubject.next(true);
+    const url = `${this.baseUrl.replace(/\/$/, '')}/shop/${shopId}/revenue`;
 
     return this.http
       .get<RevenueDataResponse>(url, { params })

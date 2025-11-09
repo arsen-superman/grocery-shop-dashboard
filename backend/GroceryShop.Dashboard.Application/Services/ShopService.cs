@@ -20,22 +20,6 @@ namespace GroceryShop.Dashboard.Application.Services
             _logger = logger;
         }
 
-        public async Task<ShopInfoDto> GetShopInfo(int shopId)
-        {
-            var shop = await _context.Shops
-                .Where(s => s.ShopId == shopId && s.IsActive)
-                .Select(s => new ShopInfoDto(s.ShopId, s.Name))
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
-
-            if (shop == null)
-            {
-                _logger.LogWarning("Shop not found or inactive for TenantId: {TenantId}", shopId);
-            }
-
-            return shop;
-        }
-
         public async Task<List<ShopInfoDto>> GetAll()
         {
             var shops = await _context.Shops

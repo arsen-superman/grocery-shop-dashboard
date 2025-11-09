@@ -6,7 +6,6 @@ namespace GroceryShop.Dashboard.Domain.Interfaces
 {
     public interface IShopService
     {
-        Task<ShopInfoDto> GetShopInfo(int shopId);
         Task<List<ShopInfoDto>> GetAll();
     }
 }

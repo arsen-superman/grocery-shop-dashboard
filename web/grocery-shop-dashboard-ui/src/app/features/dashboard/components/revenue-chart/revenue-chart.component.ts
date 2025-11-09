@@ -13,7 +13,6 @@ import { debounceTime, fromEvent, Subscription } from 'rxjs';
 export class RevenueChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('chartContainer', { read: ElementRef }) chartContainer?: ElementRef<HTMLDivElement>;
   data = input<DailyRevenueSummary[]>([]);
-  shopName = input('');
   height = input(380);
 
   chartReady = output<void>();

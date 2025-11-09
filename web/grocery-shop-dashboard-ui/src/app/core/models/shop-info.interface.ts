@@ -1,4 +1,4 @@
 export interface ShopInfo {
-  tenantId: number;
-  shopName: string;
+  shopId: number;
+  name: string;
 }

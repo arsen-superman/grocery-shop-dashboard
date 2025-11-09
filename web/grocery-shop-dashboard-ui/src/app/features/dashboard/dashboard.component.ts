@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
 import { DailyRevenueSummary } from '../../core/models/revenue-data.interface';
+import { ShopInfo } from '../../core/models/shop-info.interface';
 import { MatCardModule } from '@angular/material/card';
 import { RevenueChartComponent } from './components/revenue-chart/revenue-chart.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -17,7 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class DashboardComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   
-  tenantId: number = 1;
+  shopId: number = 1;
   fromDate: string = '2025-10-01';
   toDate: string = '2025-10-31';
 
@@ -26,14 +27,40 @@ export class DashboardComponent implements OnInit {
   revenueData = signal<DailyRevenueSummary[]>([]);
   loading = signal(false);
   error = signal('');
+  // shops list for filter selection
+  shops = signal<ShopInfo[]>([]);
+  loadingShops = signal(false);
   
   // Output
-  dataLoaded = output<{ shopName: string; fromDate: string; toDate: string }>();
+  dataLoaded = output<{ fromDate: string; toDate: string }>();
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
+    // load shops first (for the tenant selector), then initial revenue
+    this.loadShops();
     this.loadData();
+  }
+
+  loadShops(): void {
+    this.loadingShops.set(true);
+    this.error.set('');
+
+    this.apiService
+      .getAllShops()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          // prepend an 'All' option
+          const allShops: ShopInfo[] = [{ shopId: 0, name: 'All' }, ...res];
+          this.shops.set(allShops);
+          this.loadingShops.set(false);
+        },
+        error: (err: any) => {
+          this.error.set(err?.message || 'Failed to load shops');
+          this.loadingShops.set(false);
+        }
+      });
   }
 
   loadData(): void {
@@ -41,16 +68,14 @@ export class DashboardComponent implements OnInit {
   this.error.set('');
   
   this.apiService
-    .getShopData(this.tenantId, this.fromDate, this.toDate)
+    .getShopRevenue(this.shopId, this.fromDate, this.toDate)
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe({
       next: (res) => {
-        this.shopName.set(res.shopName);
         this.revenueData.set(res.data);
         this.loading.set(false);
         
         this.dataLoaded.emit({ 
-          shopName: res.shopName, 
           fromDate: this.fromDate, 
           toDate: this.toDate 
         });

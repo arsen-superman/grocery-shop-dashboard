@@ -77,18 +77,10 @@ namespace GroceryShop.Dashboard.API.Controllers
                     return BadRequest(new { error = "fromDate cannot be after toDate" });
                 }
 
-                var shopInfo = await _shopService.GetShopInfo(shopId);
-                if (shopInfo == null)
-                {
-                    _logger.LogWarning("Shop {ShopId} not found or inactive", shopId);
-                    return NotFound(new { error = $"Shop with shopId {shopId} not found or inactive" });
-                }
-
                 var data = await _shopDataService.GetDailyRevenueData(shopId, fromDate, toDate);
 
                 var response = new RevenueDataResponse(
-                    shopInfo.ShopId,
-                    shopInfo.Name,
+                    shopId,
                     data
                 );
 

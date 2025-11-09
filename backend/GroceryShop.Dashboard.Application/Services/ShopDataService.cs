@@ -20,15 +20,31 @@ namespace GroceryShop.Dashboard.Application.Services
 
         public async Task<IEnumerable<DailyRevenueSummaryDto>> GetDailyRevenueData(int shopId, DateTime fromDate, DateTime toDate)
         {
-            var query = _context.DailyRevenueSummaries
-                .Where(r => r.Date >= fromDate && r.Date <= toDate);
-
-            if (shopId != default)
+            if (shopId == default)
             {
-                query = query.Where(r => r.ShopId == shopId);
+                var allData = await _context.DailyRevenueSummaries
+                    .Where(r => r.Date >= fromDate && r.Date <= toDate)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                var aggregatedData = allData
+                    .GroupBy(r => r.Date)
+                    .Select(g => new DailyRevenueSummaryDto(
+                        g.Key,
+                        g.Sum(r => r.DailyIncome),
+                        g.Sum(r => r.DailyOutcome),
+                        g.Sum(r => r.Revenue)
+                    ))
+                    .OrderBy(r => r.Date)
+                    .ToList();
+
+                return aggregatedData;
             }
 
-            var data = await query
+            var data = await _context.DailyRevenueSummaries
+                .Where(r => r.ShopId == shopId
+                         && r.Date >= fromDate
+                         && r.Date <= toDate)
                 .OrderBy(r => r.Date)
                 .Select(r => new DailyRevenueSummaryDto(
                     r.Date,
