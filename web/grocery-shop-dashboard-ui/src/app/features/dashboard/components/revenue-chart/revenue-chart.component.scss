@@ -1,33 +1,56 @@
 .revenue-chart {
-  width: 100%;
+  max-width: 1400px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  overflow: hidden;
+
+  :host ::ng-deep {
+    google-chart {
+      display: block;
+      width: 100% !important;
+      
+      > div {
+        width: 100% !important;
+        margin: 0 auto;
+      }
+
+      svg {
+        width: 100% !important;
+        height: auto !important;
+      }
+    }
+  }
 }
 
 .chart-loading,
 .chart-error,
 .chart-empty {
-  padding: 1rem;
+  padding: 3rem 2rem;
   text-align: center;
   font-weight: 600;
+  border-radius: 8px;
 }
 
 .chart-loading {
   color: #6e3df7;
+  background: #f5f3ff;
+  font-size: 1.1rem;
 }
 
 .chart-error {
-  color: #e53935;
+  color: #c62828;
+  background: #ffebee;
+  border: 2px solid #ffcdd2;
+  font-size: 1rem;
 }
 
 .chart-empty {
-  color: #011323;
-}
-
-.chart-container {
-  width: 100%;
-  min-height: 200px;
-  background: #ffffff;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
+  color: #5a6c7d;
+  background: #f8f9fc;
+  border: 2px dashed #e0e4ea;
+  font-size: 1rem;
 }
 
 .spinner {
@@ -45,5 +68,19 @@
 @keyframes spin {
   100% {
     transform: rotate(360deg);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .revenue-chart {
+    padding: 1rem;
+  }
+  
+  .chart-loading,
+  .chart-error,
+  .chart-empty {
+    padding: 2rem 1rem;
+    font-size: 0.95rem;
   }
 }

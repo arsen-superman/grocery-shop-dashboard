@@ -56,16 +56,6 @@
     </button>
   </form>
   
-  <!-- Metadata -->
-  <div class="dashboard-meta">
-    <div class="dashboard-shop">
-      Shop: <span class="shop-name">{{ shopName() || '—' }}</span>
-    </div>
-    <div class="dashboard-count">
-      Records: <span class="record-count">{{ revenueData().length }}</span>
-    </div>
-  </div>
-  
   <!-- Chart -->
   <app-revenue-chart
     [data]="revenueData()"

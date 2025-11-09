@@ -71,10 +71,7 @@ export class DashboardComponent implements OnInit {
     this.loadData();
   }
 
-  /** Called when the child chart reports it's ready */
   onChartReady(): void {
-    // placeholder for any post-chart actions (analytics, focus, etc.)
-    // currently no-op
     console.log('Chart ready!');
   }
 }

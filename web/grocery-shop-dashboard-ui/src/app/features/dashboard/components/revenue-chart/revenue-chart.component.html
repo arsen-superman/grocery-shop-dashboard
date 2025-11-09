@@ -1,4 +1,4 @@
-<div class="revenue-chart">
+<div class="revenue-chart" #chartContainer>
   @if (!data() || data().length === 0) {
     <div class="chart-empty">No data to display for the selected range.</div>
   } @else {
@@ -7,7 +7,7 @@
       [data]="chartData()"
       [columns]="chartColumns"
       [options]="chartOptions()"
-      [width]="chartWidth"
+      [width]="chartWidth()"
       [height]="chartHeight()"
       (ready)="onChartReady()"
       (error)="onChartError($event)"
