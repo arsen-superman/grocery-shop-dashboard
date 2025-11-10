@@ -58,6 +58,11 @@ namespace GroceryShop.Dashboard.API.Controllers
         /// <param name="toDate">End date (inclusive)</param>
         /// <returns>Shop information and revenue data</returns>
         [HttpGet("{shopId}/revenue")]
+        [ResponseCache(
+            Duration = 300,
+            Location = ResponseCacheLocation.Any,
+            VaryByQueryKeys = ["fromDate", "toDate"]
+        )]
         [ProducesResponseType(typeof(RevenueDataResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

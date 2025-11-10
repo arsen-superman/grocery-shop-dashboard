@@ -66,6 +66,7 @@ namespace GroceryShop.Dashboard.API
                         Description = "API for grocery shop financial dashboard"
                     });
                 });
+                builder.Services.AddResponseCaching();
 
                 var app = builder.Build();
 
@@ -106,6 +107,8 @@ namespace GroceryShop.Dashboard.API
                 app.UseHttpsRedirection();
                 app.UseAuthorization();
                 app.MapControllers();
+
+                app.UseResponseCaching();
 
                 Log.Information("ShopDashboard API started successfully");
 
