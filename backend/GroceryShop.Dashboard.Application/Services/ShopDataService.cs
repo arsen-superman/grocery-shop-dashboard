@@ -33,7 +33,7 @@ namespace GroceryShop.Dashboard.Application.Services
                         g.Key,
                         g.Sum(r => r.DailyIncome),
                         g.Sum(r => r.DailyOutcome),
-                        g.Sum(r => r.Revenue)
+                        g.Sum(r => r.DailyIncome - r.DailyOutcome)
                     ))
                     .OrderBy(r => r.Date)
                     .ToList();
@@ -50,7 +50,7 @@ namespace GroceryShop.Dashboard.Application.Services
                     r.Date,
                     r.DailyIncome,
                     r.DailyOutcome,
-                    r.Revenue
+                    r.DailyIncome - r.DailyOutcome
                 ))
                 .AsNoTracking()
                 .ToListAsync();

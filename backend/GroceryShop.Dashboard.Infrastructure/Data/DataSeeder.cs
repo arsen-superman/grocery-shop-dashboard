@@ -52,7 +52,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
             logger.LogInformation("Seeded {Count} shops", shops.Count);
 
             var random = new Random(42); 
-            var records = new List<DailyRevenueSummary>();
+            var records = new List<ShopDailyReport>();
 
             var startDate = new DateTime(2021, 01, 1);
             var endDate = new DateTime(2025, 10, 31);
@@ -64,7 +64,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
                     var income = random.Next(5000, 15001); // 5000-15000
                     var outcome = random.Next(3000, 10001); // 3000-10000
 
-                    records.Add(new DailyRevenueSummary
+                    records.Add(new ShopDailyReport
                     {
                         ShopId = shop.ShopId,
                         Date = date,

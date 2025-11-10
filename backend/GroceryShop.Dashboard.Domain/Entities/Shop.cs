@@ -11,6 +11,6 @@ namespace GroceryShop.Dashboard.Domain.Entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedAt { get; set; }
 
-        public ICollection<DailyRevenueSummary> DailyRecords { get; set; } = new List<DailyRevenueSummary>();
+        public ICollection<ShopDailyReport> DailyRecords { get; set; } = new List<ShopDailyReport>();
     }
 }

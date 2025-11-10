@@ -104,7 +104,11 @@ namespace GroceryShop.Dashboard.API
                 // Enable CORS
                 app.UseCors("AllowAngular");
 
-                app.UseHttpsRedirection();
+                if (!app.Environment.IsDevelopment())
+                {
+                    app.UseHttpsRedirection();
+                }
+
                 app.UseAuthorization();
                 app.MapControllers();
 

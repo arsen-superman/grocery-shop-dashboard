@@ -7,7 +7,7 @@ namespace GroceryShop.Dashboard.Infrastructure.Data
     public class ShopDbContext(DbContextOptions<ShopDbContext> options) : DbContext(options)
     {
         public DbSet<Shop> Shops => Set<Shop>();
-        public DbSet<DailyRevenueSummary> DailyRevenueSummaries => Set<DailyRevenueSummary>();
+        public DbSet<ShopDailyReport> DailyRevenueSummaries => Set<ShopDailyReport>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
