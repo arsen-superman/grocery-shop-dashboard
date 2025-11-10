@@ -15,7 +15,7 @@ Before you start, make sure the following tools are installed:
 | Tool | Version | Description |
 |------|----------|-------------|
 | [.NET SDK](https://dotnet.microsoft.com/en-us/download) | 8.x | Required to run the backend API |
-| [Node.js](https://nodejs.org/en/download) | LTS (>=18.x) | Required to run the Angular frontend |
+| [Node.js](https://nodejs.org/en/download) | LTS (>=22.x) | Required to run the Angular frontend |
 | [Visual Studio Code](https://code.visualstudio.com/) | latest | Used to run tasks and debug both apps |
 
 ---
