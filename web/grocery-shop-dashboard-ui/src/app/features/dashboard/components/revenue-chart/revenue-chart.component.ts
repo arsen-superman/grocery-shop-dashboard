@@ -111,7 +111,6 @@ export class RevenueChartComponent implements AfterViewInit, OnDestroy {
         const weekMap = new Map<string, { income: number; outcome: number; revenue: number; count: number }>();
 
         data.forEach(item => {
-            debugger
             const date = new Date(item.date);
             const weekStart = this.getWeekStart(date);
             const weekKey = weekStart.toISOString().split('T')[0];

@@ -1,0 +1,85 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      }
+    },
+	{
+      "label": "web: ng serve",
+	  "type": "process",
+	  "command": "npx",
+	  "args": ["ng", "serve", "--open"],
+	  "options": { "cwd": "." }
+    },
+    {
+      "label": "backend: dotnet watch",
+	  "type": "process",
+	  "command": "dotnet",
+	  "args": ["watch", "run", "--project", "../../backend/GroceryShop.Dashboard.API/GroceryShop.Dashboard.API.csproj"],
+	  "isBackground": true,
+	  "problemMatcher": {
+		"background": {
+		  "activeOnStart": true,
+		  "beginsPattern": "dotnet watch",
+		  "endsPattern": "Application started|Now listening on"
+		}
+	}
+    },
+    {
+      "label": "run dev",
+      "dependsOn": [ "web: ng serve", "backend: dotnet watch" ],
+      "dependsOrder": "parallel",
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "stop dev (Windows)",
+	  "type": "process",
+	  "command": "powershell",
+	  "args": [
+		"-NoProfile",
+		"-Command",
+		"Stop-Process -Name dotnet, node -Force -ErrorAction SilentlyContinue"
+	  ],
+	"problemMatcher": []
+    },
+    {
+      "label": "stop dev (Unix/macOS)",
+      "type": "shell",
+      "command": "pkill -f \"dotnet watch\" || true; pkill -f \"ng serve\" || true; pkill -f \"vite\" || true; pkill -f \"node .*ng\" || true"
+    }
+  ]
+}
